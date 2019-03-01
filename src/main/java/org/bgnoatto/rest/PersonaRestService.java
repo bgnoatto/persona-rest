@@ -1,5 +1,6 @@
 package org.bgnoatto.rest;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +13,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.bgnoatto.rest.dao.PersonaDAO;
 import org.bgnoatto.rest.domain.Persona;
 
 @Path("/personas")
-public class PersonaRestService {
+public class PersonaRestService extends PersonaDAO {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -30,6 +32,13 @@ public class PersonaRestService {
 	@Path("{ID_persona}")
 	public Response crearActa(@PathParam(value = "ID_persona") Long idpersona, Persona persona) {
 		persona.setDni(idpersona);
+		try {
+			Connection con = getConnection();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return Response.ok(persona, MediaType.APPLICATION_JSON).build();
 	}
 
