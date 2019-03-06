@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.bgnoatto.test</groupId>
@@ -11,6 +10,11 @@
 
 	<properties>
 		<jersey.version>2.26</jersey.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.7</java.version>
+		<resteasy.version>3.0.16.Final</resteasy.version>
+		<undertow.version>1.3.21.Final</undertow.version>
+		<jackson.version>2.6.3</jackson.version>
 		<junit.version>4.12</junit.version>
 	</properties>
 
@@ -109,11 +113,27 @@
 
 		<!-- Hibernate library dependency end -->
 
+		<!-- TESTING BEGIN -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- TESTING END -->
+		<!-- LOG BEGIN -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<!-- LOG END -->
+		<!-- SERVER -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxrs</artifactId>
-			<version>3.0.16.Final</version>
-<!-- 			<scope>provided</scope> -->
+			<version>2.2.1.GA</version>
+			<scope>provided</scope>
 			<!-- <exclusions> -->
 			<!-- <exclusion> -->
 			<!-- <groupId>org.jboss.resteasy</groupId> -->
@@ -121,6 +141,37 @@
 			<!-- </exclusion> -->
 			<!-- </exclusions> -->
 		</dependency>
+
+		<!-- <dependency> -->
+		<!-- <groupId>io.undertow</groupId> -->
+		<!-- <artifactId>undertow-servlet</artifactId> -->
+		<!-- <version>${undertow.version}</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>io.undertow</groupId> -->
+		<!-- <artifactId>undertow-core</artifactId> -->
+		<!-- <version>${undertow.version}</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.jboss.resteasy</groupId> -->
+		<!-- <artifactId>resteasy-undertow</artifactId> -->
+		<!-- <version>${resteasy.version}</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.jboss.resteasy</groupId> -->
+		<!-- <artifactId>resteasy-jackson2-provider</artifactId> -->
+		<!-- <version>${resteasy.version}</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.fasterxml.jackson.module</groupId> -->
+		<!-- <artifactId>jackson-module-jaxb-annotations</artifactId> -->
+		<!-- <version>${jackson.version}</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.fasterxml.jackson.datatype</groupId> -->
+		<!-- <artifactId>jackson-datatype-jsr310</artifactId> -->
+		<!-- <version>${jackson.version}</version> -->
+		<!-- </dependency> -->
 
 		<!-- <dependency> -->
 		<!-- <groupId>javax.servlet</groupId> -->
@@ -160,11 +211,9 @@
 		<!-- <version>${jersey.version}</version> -->
 		<!-- </dependency> -->
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.21</version>
-		</dependency>
+		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
+
+
 
 		<!-- testing -->
 		<!-- <dependency> -->
@@ -173,23 +222,18 @@
 		<!-- <version>${jersey.version}</version> -->
 		<!-- <scope>test</scope> -->
 		<!-- </dependency> -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-
 	</dependencies>
 
 	<build>
 		<finalName>persona-rest</finalName>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 				</configuration>
 			</plugin>
 		</plugins>
