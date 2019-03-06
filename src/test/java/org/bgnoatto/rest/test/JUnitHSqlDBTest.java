@@ -25,13 +25,13 @@ public class JUnitHSqlDBTest {
 	}
 	
 
-//	@AfterClass
-//	public static void destroy() throws SQLException, ClassNotFoundException, IOException {
-//		try (Connection connection = getConnection(); Statement statement = connection.createStatement();) {
-//			statement.executeUpdate("DROP TABLE IF EXISTS persona");
-//			connection.commit();
-//		}
-//	}
+	@AfterClass
+	public static void destroy() throws SQLException, ClassNotFoundException, IOException {
+		try (Connection connection = getConnection(); Statement statement = connection.createStatement();) {
+			statement.executeUpdate("DROP TABLE IF EXISTS persona");
+			connection.commit();
+		}
+	}
 
 	/**
 	 * Database initialization for testing i.e.
