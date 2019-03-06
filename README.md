@@ -4,9 +4,9 @@ Rest Api with Junit and Wildfly 8.0.0
 
 ## Getting Started
 
-Este proyecto es para mostrar un RESTapi con jUnit and Wildfly. Tiene Get y Post basicos. Usa hsqldb en memoria e Hibernate.
+Este proyecto es para mostrar un REST API con jUnit and Wildfly. Tiene Get y Post basicos. Usa hsqldb en memoria e Hibernate.
 
-This project is to show a RESTapi with jUnit and Wildfly. It has basic Get and Post. Use hsqldb in memory and Hibernate.
+This project is to show a REST API with jUnit and Wildfly. It has basic Get and Post. Use hsqldb in memory and Hibernate.
 
 ### Prerequisites
 
