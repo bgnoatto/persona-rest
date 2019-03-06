@@ -23,4 +23,4 @@ Compilar con maven.
 
 ## Authors
 
-* **Gnoatto bRUNO** - [bgnoatto](https://github.com/bgnoatto)
+* **Gnoatto Bruno** - [bgnoatto](https://github.com/bgnoatto)
