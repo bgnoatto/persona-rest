@@ -1,26 +1,56 @@
 package org.bgnoatto.rest.domain;
 
-public class Persona {
-	private Long dni;
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Persona")
+public class Persona implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1596444476537969429L;
+
+	@Id
+	@Column(name = "dni", nullable = false)
+	private Integer dni;
+	
+	@Column(name="nombre")
 	private String nombre;
+	
+	@Column(name="apellido")
 	private String apellido;
+	
+	@Column(name="edad")
 	private Integer edad;
 	
 	public Persona() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Persona(Long dni, String nombre, String apellido, Integer edad) {
+	public Persona(Integer dni, String nombre, String apellido, Integer edad) {
 		super();
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.edad = edad;
 	}
-	public Long getDni() {
+	public Persona(String nombre, String apellido, Integer edad) {
+		super();
+		this.dni = null;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.edad = edad;
+	}
+	public Integer getDni() {
 		return dni;
 	}
-	public void setDni(Long dni) {
+	public void setDni(Integer dni) {
 		this.dni = dni;
 	}
 	public String getNombre() {

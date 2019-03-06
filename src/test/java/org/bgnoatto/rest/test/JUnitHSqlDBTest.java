@@ -1,4 +1,4 @@
-package hsqldb.test;
+package org.bgnoatto.rest.test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -25,13 +25,13 @@ public class JUnitHSqlDBTest {
 	}
 	
 
-	@AfterClass
-	public static void destroy() throws SQLException, ClassNotFoundException, IOException {
-		try (Connection connection = getConnection(); Statement statement = connection.createStatement();) {
-			statement.executeUpdate("DROP TABLE employee");
-			connection.commit();
-		}
-	}
+//	@AfterClass
+//	public static void destroy() throws SQLException, ClassNotFoundException, IOException {
+//		try (Connection connection = getConnection(); Statement statement = connection.createStatement();) {
+//			statement.executeUpdate("DROP TABLE IF EXISTS persona");
+//			connection.commit();
+//		}
+//	}
 
 	/**
 	 * Database initialization for testing i.e.
@@ -44,13 +44,11 @@ public class JUnitHSqlDBTest {
 	 */
 	private static void initDatabase() throws SQLException {
 		try (Connection connection = getConnection(); Statement statement = connection.createStatement();) {
-			statement.execute("CREATE TABLE employee (id INT NOT NULL, name VARCHAR(50) NOT NULL,"
-					+ "email VARCHAR(50) NOT NULL, PRIMARY KEY (id))");
+			statement.execute("CREATE TABLE IF NOT EXISTS persona (dni INT NOT NULL, nombre VARCHAR(250),"
+					+ "apellido VARCHAR(250), edad INT, PRIMARY KEY (dni))");
 			connection.commit();
-			statement.executeUpdate(
-					"INSERT INTO employee VALUES (1001,'Vinod Kumar Kashyap', 'vinod@javacodegeeks.com')");
-			statement.executeUpdate("INSERT INTO employee VALUES (1002,'Dhwani Kashyap', 'dhwani@javacodegeeks.com')");
-			statement.executeUpdate("INSERT INTO employee VALUES (1003,'Asmi Kashyap', 'asmi@javacodegeeks.com')");
+			statement.executeUpdate("INSERT INTO persona VALUES (31115172,'BRUNO', 'GNOATTO',34)");
+			statement.executeUpdate("INSERT INTO persona VALUES (32701794,'FLORENCIA', 'CITTA',32)");
 			connection.commit();
 		}
 	}
@@ -62,7 +60,7 @@ public class JUnitHSqlDBTest {
 	 * @throws SQLException
 	 */
 	private static Connection getConnection() throws SQLException {
-		return DriverManager.getConnection("jdbc:hsqldb:mem:employees", "vinod", "vinod");
+		return DriverManager.getConnection("jdbc:hsqldb:mem:personas", "SA", "");
 	}
 
 	/**
@@ -72,7 +70,7 @@ public class JUnitHSqlDBTest {
 	 */
 	private int getTotalRecords() {
 		try (Connection connection = getConnection(); Statement statement = connection.createStatement();) {
-			ResultSet result = statement.executeQuery("SELECT count(*) as total FROM employee");
+			ResultSet result = statement.executeQuery("SELECT count(*) as total FROM persona");
 			if (result.next()) {
 				return result.getInt("total");
 			}
@@ -84,7 +82,7 @@ public class JUnitHSqlDBTest {
 
 	@Test
 	public void getTotalRecordsTest() {
-		assertThat(3, is(getTotalRecords()));
+		assertThat(2, is(getTotalRecords()));
 	}
 
 	@Test
@@ -92,15 +90,14 @@ public class JUnitHSqlDBTest {
 		try (Connection connection = getConnection();
 				Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 						ResultSet.CONCUR_READ_ONLY);) {
-
-			ResultSet result = statement.executeQuery("SELECT name FROM employee");
+			ResultSet result = statement.executeQuery("SELECT nombre FROM persona");
 
 			if (result.first()) {
-				assertThat("Vinod Kumar Kashyap", is(result.getString("name")));
+				assertThat("BRUNO", is(result.getString("nombre")));
 			}
 
 			if (result.last()) {
-				assertThat("Asmi Kashyap", is(result.getString("name")));
+				assertThat("FLORENCIA", is(result.getString("nombre")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

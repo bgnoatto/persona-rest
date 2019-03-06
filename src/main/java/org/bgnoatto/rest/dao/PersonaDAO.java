@@ -2,7 +2,13 @@ package org.bgnoatto.rest.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.ResourceBundle;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bgnoatto.rest.domain.Persona;
 
 public class PersonaDAO {
 
@@ -23,34 +29,79 @@ public class PersonaDAO {
 		if (personaDAO == null) {
 			personaDAO = new PersonaDAO();
 
-			conn = personaDAO.getConnection();
+			conn = personaDAO.getDBConnection();
 		}
 
 		return personaDAO;
 	}
 
-	protected Connection getConnection() throws Exception {
-
-		if (conn != null && !conn.isClosed()) {
-			return conn;
-		}
+	protected Connection getDBConnection() {
 
 		try {
+			if (conn != null && !conn.isClosed()) {
+				return conn;
+			}
+			
 			// Registering the HSQLDB JDBC driver
 			Class.forName("org.hsqldb.jdbc.JDBCDriver");
-			// Creating the connection with HSQLDB
-			conn = DriverManager.getConnection(URL, USER,PASSWD);
-			if (conn != null) {
-				System.out.println("Connection created successfully");
+			
+			conn = initDatabase();
 
-			} else {
-				System.out.println("Problem with creating connection");
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 
+		
 		return conn;
+	}
+	
+	/**
+	 * Database initialization for testing i.e.
+	 * <ul>
+	 * <li>Creating Table</li>
+	 * <li>Inserting record</li>
+	 * </ul>
+	 * 
+	 * @throws SQLException
+	 */
+	private static Connection initDatabase() {
+		try {
+			conn = getConnection(); Statement statement = conn.createStatement();
+			statement.execute("CREATE TABLE IF NOT EXISTS persona (dni INT NOT NULL, nombre VARCHAR(250),"
+					+ "apellido VARCHAR(250), edad INT, PRIMARY KEY (dni))");
+			conn.commit();
+		}catch (SQLException e) {
+			conn = null;
+			e.printStackTrace();
+			
+		}
+		return conn;
+	}
+	
+	/**
+	 * Create a connection
+	 * 
+	 * @return connection object
+	 * @throws SQLException
+	 */
+	private static Connection getConnection() throws SQLException {
+		return DriverManager.getConnection("jdbc:hsqldb:mem:personas", "SA", "");
+	}
+	
+	public List<Persona> getAllPersonas(){
+		List<Persona> resultado = new ArrayList<Persona>();
+		try {
+			conn = getDBConnection();
+			Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_READ_ONLY);
+			ResultSet result = statement.executeQuery("SELECT dni,nombre,apellido,edad FROM persona");
+			System.out.println(result);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return resultado;
 	}
 }
